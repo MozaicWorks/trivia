@@ -70,7 +70,7 @@ void assertEquals(string expected, string actual, string message) {
     if (expected == actual) {
         cout << "..." << "Equal" << endl;
     } else {
-        cout << "..." << "Failed" << endl;
+        cout << "..." << "Failed: " << message << endl;
         throw message;
     }
 }
