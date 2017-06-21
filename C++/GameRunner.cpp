@@ -76,8 +76,7 @@ void assertEquals(string expected, string actual, string message) {
 }
 
 string readFileToString(const string &filePath) {
-    ifstream file;
-    file.open(filePath);
+    ifstream file(filePath);
     return string(istreambuf_iterator<char>(file), istreambuf_iterator<char>());
 }
 
