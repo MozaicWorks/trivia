@@ -22,8 +22,8 @@ void assertEquals(string expected, string actual, string message);
 int main() {
     testGame();
 
-    list <string> list = {"Chet", "Pat", "Sue"};
-    runGame(cout, list);
+//    list <string> list = {"Chet", "Pat", "Sue"};
+//    runGame(cout, list);
 }
 
 void runGame(ostream &outputStream, const list <string> &playersList) {
@@ -54,7 +54,7 @@ void testGame() {
 
 void compareFiles(string goldenMasterPath, string outputPath) {
     for (int i = 1; i < 256; i++) {
-        const string &goldenMasterFilePath = goldenMasterPath + to_string(i) + ".txt";
+        const string &goldenMasterFilePath = goldenMasterPath + "Golden" + to_string(i) + ".txt";
         const string &outputFilePath = outputPath + to_string(i) + ".txt";
 
         string goldenMasterContent = readFileToString(goldenMasterFilePath);
@@ -77,7 +77,7 @@ void assertEquals(string expected, string actual, string message) {
 
 string readFileToString(const string &filePath) {
     ifstream file(filePath);
-    return string(istreambuf_iterator<char>(file), istreambuf_iterator<char>());
+    return string((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 }
 
 void saveGoldenMaster(string path) {
