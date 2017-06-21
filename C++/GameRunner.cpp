@@ -44,9 +44,9 @@ void runGame(ostream &outputStream, const list <string> &playersList) {
 }
 
 void testGame() {
-    //saveGoldenMaster("./"); // save initial golden master
+//    saveGoldenMaster("./"); // save initial golden master
 
-    saveGoldenMaster("/output/");
+    saveGoldenMaster("output/");
 
     compareFiles("./", "output/");
 }
@@ -54,7 +54,7 @@ void testGame() {
 void compareFiles(string goldenMasterPath, string outputPath) {
     for (int i = 1; i < 256; i++) {
         const string &goldenMasterFilePath = goldenMasterPath + "Golden" + to_string(i) + ".txt";
-        const string &outputFilePath = outputPath + to_string(i) + ".txt";
+        const string &outputFilePath = outputPath + "Golden" + to_string(i) + ".txt";
 
         string goldenMasterContent = readFileToString(goldenMasterFilePath);
         string outputContent = readFileToString(outputFilePath);
