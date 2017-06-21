@@ -1,22 +1,24 @@
 ﻿#include <stdlib.h>
+#include <array>
 #include "Game.h"
 
 static bool notAWinner;
 
-void runGame();
+void runGame(ostream &outputStream, const list <string> &playersList);
 
 int main()
 {
-	runGame();
+	list<string> list = {"Chet", "Pat", "Sue"};
+	runGame(cout, list);
 
 }
 
-void runGame() {
-	Game aGame(cout);
+void runGame(ostream &outputStream, const list <string> &playersList) {
+	Game aGame(outputStream);
 
-	aGame.add("Chet");
-	aGame.add("Pat");
-	aGame.add("Sue");
+	for(string player : playersList){
+		aGame.add(player);
+	}
 
 	do
 	{
