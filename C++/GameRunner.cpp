@@ -6,11 +6,15 @@
 
 static bool notAWinner;
 
+string goldenMasterFileName(int randomSeed);
+
+string goldenMasterFilePath(string path, int randomSeed);
+
 void runGame(ostream &outputStream, const list <string> &playersList);
 
 void testGame();
 
-void saveGoldenMaster(string path);
+void saveOutput(string path);
 
 void compareFiles(string goldenMasterPath, string outputPath);
 
@@ -44,25 +48,26 @@ void runGame(ostream &outputStream, const list <string> &playersList) {
 }
 
 void testGame() {
-//    saveGoldenMaster("./"); // save initial golden master
+    string goldenMasterPath("./");
+    string outputPath("");
+//    saveOutput(goldenMasterPath); // save initial golden master
 
-    saveGoldenMaster("output/");
+    saveOutput(outputPath);
 
-    compareFiles("./", "output/");
+    compareFiles(goldenMasterPath, outputPath);
 }
 
 void compareFiles(string goldenMasterPath, string outputPath) {
     for (int i = 1; i < 256; i++) {
-        const string &goldenMasterFilePath = goldenMasterPath + "Golden" + to_string(i) + ".txt";
-        const string &outputFilePath = outputPath + "Golden" + to_string(i) + ".txt";
+        const string theGoldenMasterFilePath = goldenMasterFilePath(goldenMasterPath, i);
+        string goldenMasterContent = readFileToString(goldenMasterFilePath(goldenMasterPath, i));
 
-        string goldenMasterContent = readFileToString(goldenMasterFilePath);
-        string outputContent = readFileToString(outputFilePath);
+        const string theOutputFilePath = goldenMasterFilePath(outputPath, i);
+        string outputContent = readFileToString(theOutputFilePath);
 
-        cout << "Checking " << goldenMasterFilePath << " with " << outputFilePath;
+        cout << "Checking " << theGoldenMasterFilePath << " with " << theOutputFilePath;
         assertEquals(goldenMasterContent, outputContent, "Failed for " + to_string(i));
     }
-
 }
 
 void assertEquals(string expected, string actual, string message) {
@@ -79,15 +84,21 @@ string readFileToString(const string &filePath) {
     return string((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 }
 
-void saveGoldenMaster(string path) {
+void saveOutput(string path) {
     for (int randomSeed = 1; randomSeed < 256; randomSeed++) {
         srand(randomSeed);
         list <string> list = {"Chet", "Pat", "Sue"};
 
-        ofstream goldenMaster;
-        goldenMaster.open(path + "Golden" + to_string(randomSeed) + ".txt");
+        ofstream goldenMaster(goldenMasterFilePath(path, randomSeed));
         runGame(goldenMaster, list);
         goldenMaster.close();
     }
 }
 
+string goldenMasterFileName(int randomSeed) {
+    return "Golden" + to_string(randomSeed) + ".txt";
+}
+
+string goldenMasterFilePath(string path, int randomSeed) {
+    return path + goldenMasterFileName(randomSeed);
+}
