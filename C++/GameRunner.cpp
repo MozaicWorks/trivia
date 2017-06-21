@@ -6,32 +6,26 @@ static bool notAWinner;
 
 void runGame(ostream &outputStream, const list <string> &playersList);
 
-int main()
-{
-	list<string> list = {"Chet", "Pat", "Sue"};
-	runGame(cout, list);
+int main() {
+    list <string> list = {"Chet", "Pat", "Sue"};
+    runGame(cout, list);
 
 }
 
 void runGame(ostream &outputStream, const list <string> &playersList) {
-	Game aGame(outputStream);
+    Game aGame(outputStream);
 
-	for(string player : playersList){
-		aGame.add(player);
-	}
+    for (string player : playersList) {
+        aGame.add(player);
+    }
 
-	do
-	{
+    do {
+        aGame.roll(rand() % 5 + 1);
 
-		aGame.roll(rand() % 5 + 1);
-
-		if (rand() % 9 == 7)
-		{
-			notAWinner = aGame.wrongAnswer();
-		}
-		else
-		{
-			notAWinner = aGame.wasCorrectlyAnswered();
-		}
-	} while (notAWinner);
+        if (rand() % 9 == 7) {
+            notAWinner = aGame.wrongAnswer();
+        } else {
+            notAWinner = aGame.wasCorrectlyAnswered();
+        }
+    } while (notAWinner);
 }
