@@ -14,8 +14,7 @@ void saveGoldenMaster(string path);
 
 void compareFiles(string goldenMasterPath, string outputPath);
 
-basic_stringstream<char, std::char_traits<char>, std::allocator<char>>::__string_type readFileToString(
-        const string &filePath);
+string readFileToString(const string &filePath);
 
 void assertEquals(string expected, string actual, string message);
 
