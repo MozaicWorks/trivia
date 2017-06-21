@@ -3,9 +3,16 @@
 
 static bool notAWinner;
 
+void runGame();
+
 int main()
 {
-	Game aGame;
+	runGame();
+
+}
+
+void runGame() {
+	Game aGame(cout);
 
 	aGame.add("Chet");
 	aGame.add("Pat");
@@ -25,5 +32,4 @@ int main()
 			notAWinner = aGame.wasCorrectlyAnswered();
 		}
 	} while (notAWinner);
-
 }
