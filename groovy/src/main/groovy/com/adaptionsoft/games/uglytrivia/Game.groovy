@@ -47,22 +47,22 @@ class Game {
 	}
 
 	void roll(int roll) {
-		println players.get(currentPlayer) + " is the current player"
+		println players[currentPlayer] + " is the current player"
 		println "They have rolled a " + roll
 
 		if (inPenaltyBox[currentPlayer]) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true
 
-				println players.get(currentPlayer) + " is getting out of the penalty box"
+				println players[currentPlayer] + " is getting out of the penalty box"
 				places[currentPlayer] = places[currentPlayer] + roll
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
-				println "${players.get(currentPlayer)}'s new location is ${places[currentPlayer]}"
+				println "${players[currentPlayer]}'s new location is ${places[currentPlayer]}"
 				println "The category is " + currentCategory()
 				askQuestion()
 			} else {
-				println players.get(currentPlayer) + " is not getting out of the penalty box"
+				println players[currentPlayer] + " is not getting out of the penalty box"
 				isGettingOutOfPenaltyBox = false
 			}
 
@@ -71,7 +71,7 @@ class Game {
 			places[currentPlayer] = places[currentPlayer] + roll
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
-			println "${players.get(currentPlayer)}'s new location is ${places[currentPlayer]}"
+			println "${players[currentPlayer]}'s new location is ${places[currentPlayer]}"
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
@@ -108,7 +108,7 @@ class Game {
 			if (isGettingOutOfPenaltyBox) {
 				println "Answer was correct!!!!"
 				purses[currentPlayer]++
-				println "${players.get(currentPlayer)} now has ${purses[currentPlayer]} Gold Coins."
+				println "${players[currentPlayer]} now has ${purses[currentPlayer]} Gold Coins."
 
 				boolean winner = didPlayerWin()
 				currentPlayer++
@@ -126,7 +126,7 @@ class Game {
 
 			println "Answer was corrent!!!!"
 			purses[currentPlayer]++
-			println "${players.get(currentPlayer)} now has ${purses[currentPlayer]} Gold Coins."
+			println "${players[currentPlayer]} now has ${purses[currentPlayer]} Gold Coins."
 
 			boolean winner = didPlayerWin()
 			currentPlayer++
@@ -138,7 +138,7 @@ class Game {
 
 	boolean wrongAnswer() {
 		println "Question was incorrectly answered"
-		println players.get(currentPlayer) + " was sent to the penalty box"
+		println players[currentPlayer] + " was sent to the penalty box"
 		inPenaltyBox[currentPlayer] = true
 
 		currentPlayer++
