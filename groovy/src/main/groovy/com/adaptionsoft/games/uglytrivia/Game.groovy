@@ -47,6 +47,10 @@ class Game {
 	}
 
 	void roll(int roll) {
+		pure_Roll(roll)
+	}
+
+	private pure_Roll(int roll) {
 		println players[currentPlayer] + " is the current player"
 		println "They have rolled a " + roll
 
@@ -75,7 +79,6 @@ class Game {
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
-
 	}
 
 	private void askQuestion() {
