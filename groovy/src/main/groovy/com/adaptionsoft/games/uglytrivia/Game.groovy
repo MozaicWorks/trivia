@@ -56,7 +56,9 @@ class Game {
 		)
 	}
 
-	private pure_Roll(int roll, currentPlayerFromListFunction, currentPlayerInPenaltyBoxFunction) {
+	private pure_Roll(final int roll,
+	                  final currentPlayerFromListFunction,
+	                  final currentPlayerInPenaltyBoxFunction) {
 		println currentPlayerFromListFunction() + " is the current player"
 		println "They have rolled a " + roll
 
