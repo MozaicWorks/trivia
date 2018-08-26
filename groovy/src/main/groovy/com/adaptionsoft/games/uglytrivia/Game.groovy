@@ -47,19 +47,22 @@ class Game {
 	}
 
 	void roll(int roll) {
-		def currentPlayerFromListFunction = this.&currentPlayerFromList.curry(this.players, this.currentPlayer)
+		def currentPlayerNameFunction = this.&currentPlayerFromList.curry(this.players, this.currentPlayer)
 		def currentPlayerInPenaltyBoxFunction = this.&isInPenaltyBox.curry(this.inPenaltyBox, this.currentPlayer)
+		def printCurrentPlayerNameFunction = this.&printCurrentPlayerName.curry(currentPlayerNameFunction)
 		pure_Roll(
 				roll,
-				currentPlayerFromListFunction,
-				currentPlayerInPenaltyBoxFunction
+				currentPlayerNameFunction,
+				currentPlayerInPenaltyBoxFunction,
+				printCurrentPlayerNameFunction
 		)
 	}
 
 	private pure_Roll(final int roll,
 	                  final currentPlayerFromListFunction,
-	                  final currentPlayerInPenaltyBoxFunction) {
-		println currentPlayerFromListFunction() + " is the current player"
+	                  final currentPlayerInPenaltyBoxFunction,
+	                  final printCurrentPlayerNameFunction) {
+		printCurrentPlayerNameFunction()
 		println "They have rolled a " + roll
 
 		if (currentPlayerInPenaltyBoxFunction()) {
@@ -87,6 +90,10 @@ class Game {
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
+	}
+
+	private printCurrentPlayerName(currentPlayerFromListFunction) {
+		println currentPlayerFromListFunction() + " is the current player"
 	}
 
 	private static isInPenaltyBox(boolean[] inPenaltyBox, int currentPlayer) {
