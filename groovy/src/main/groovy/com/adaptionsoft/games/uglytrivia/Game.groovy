@@ -47,11 +47,15 @@ class Game {
 	}
 
 	void roll(int roll) {
-		pure_Roll(roll)
+		def currentPlayerFromListFunction = this.&currentPlayerFromList.curry(this.players, this.currentPlayer)
+		pure_Roll(
+				roll,
+				currentPlayerFromListFunction
+		)
 	}
 
-	private pure_Roll(int roll) {
-		println players[currentPlayer] + " is the current player"
+	private pure_Roll(int roll, currentPlayerFromListFunction) {
+		println currentPlayerFromListFunction() + " is the current player"
 		println "They have rolled a " + roll
 
 		if (inPenaltyBox[currentPlayer]) {
@@ -62,11 +66,11 @@ class Game {
 				places[currentPlayer] = places[currentPlayer] + roll
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
-				println "${players[currentPlayer]}'s new location is ${places[currentPlayer]}"
+				println "${currentPlayerFromListFunction()}'s new location is ${places[currentPlayer]}"
 				println "The category is " + currentCategory()
 				askQuestion()
 			} else {
-				println players[currentPlayer] + " is not getting out of the penalty box"
+				println currentPlayerFromListFunction() + " is not getting out of the penalty box"
 				isGettingOutOfPenaltyBox = false
 			}
 
@@ -75,10 +79,14 @@ class Game {
 			places[currentPlayer] = places[currentPlayer] + roll
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
-			println "${players[currentPlayer]}'s new location is ${places[currentPlayer]}"
+			println "${currentPlayerFromListFunction()}'s new location is ${places[currentPlayer]}"
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
+	}
+
+	private static currentPlayerFromList(ArrayList players, int currentPlayer) {
+		players[currentPlayer]
 	}
 
 	private void askQuestion() {
