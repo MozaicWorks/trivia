@@ -55,7 +55,8 @@ class Game {
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
 		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
 		def printNewLocationFunction = this.&printNewLocation.curry(currentPlayerNameFunction)
-		def printCurrentCategoryFunction = this.&printCurrentCategory.curry(this.&currentCategory)
+		def currentCategoryFunction = this.&pure_currentCategory.curry(places[currentPlayer])
+		def printCurrentCategoryFunction = this.&printCurrentCategory.curry(currentCategoryFunction)
 		def askQuestionFunction = this.&askQuestion
 
 		int newPlace
@@ -108,11 +109,11 @@ class Game {
 			}
 
 		} else {
-			newPlace = movePlayer(roll, this.places[currentPlayer])
+			newPlace = movePlayer(roll, currentPlace)
 
-			println "${currentPlayerNameFunction()}'s new location is ${places[currentPlayer]}"
-			println "The category is " + currentCategory()
-			askQuestion()
+			printNewLocationFunction(newPlace)
+			printCurrentCategoryFunction()
+			askQuestionFunction()
 		}
 
 		return [newIsGettingOutOfPenaltyBox, newPlace]
@@ -170,15 +171,19 @@ class Game {
 
 
 	private String currentCategory() {
-		if (places[currentPlayer] == 0) return "Pop"
-		if (places[currentPlayer] == 4) return "Pop"
-		if (places[currentPlayer] == 8) return "Pop"
-		if (places[currentPlayer] == 1) return "Science"
-		if (places[currentPlayer] == 5) return "Science"
-		if (places[currentPlayer] == 9) return "Science"
-		if (places[currentPlayer] == 2) return "Sports"
-		if (places[currentPlayer] == 6) return "Sports"
-		if (places[currentPlayer] == 10) return "Sports"
+		return pure_currentCategory(places[currentPlayer])
+	}
+
+	private static pure_currentCategory(final int currentPlace) {
+		if (currentPlace == 0) return "Pop"
+		if (currentPlace == 4) return "Pop"
+		if (currentPlace == 8) return "Pop"
+		if (currentPlace == 1) return "Science"
+		if (currentPlace == 5) return "Science"
+		if (currentPlace == 9) return "Science"
+		if (currentPlace == 2) return "Sports"
+		if (currentPlace == 6) return "Sports"
+		if (currentPlace == 10) return "Sports"
 		return "Rock"
 	}
 
