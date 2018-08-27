@@ -55,7 +55,7 @@ class Game {
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
 		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
 		def printNewLocationFunction = this.&printNewLocation.curry(currentPlayerNameFunction)
-		def currentCategoryFunction = this.&pure_currentCategory.curry(places[currentPlayer])
+		def currentCategoryFunction = this.&currentCategory.curry(places[currentPlayer])
 		def printCurrentCategoryFunction = this.&printCurrentCategory.curry(currentCategoryFunction)
 		def askQuestionFunction = this.&askQuestion
 
@@ -63,8 +63,7 @@ class Game {
 		def printIsNotGettingOutOfPenaltyBoxFunction = this.&printIsNotGettingOutOfPenaltyBox.curry(printFunction, currentPlayerNameFunction)
 		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
 				roll,
-				isGettingOutOfPenaltyBox
-				,
+				isGettingOutOfPenaltyBox,
 				currentPlayerInPenaltyBoxFunction,
 				printCurrentPlayerNameFunction,
 				printRollFunction,
@@ -173,14 +172,18 @@ class Game {
 		def newSportsQuestions
 		def newRockQuestions
 
-		(newPopQuestions, newScienceQuestions, newSportsQuestions, newRockQuestions) = pure_askQuestion(
-				this.&currentCategory,
-				Console.&println,
-				popQuestions.asImmutable(),
-				scienceQuestions.asImmutable(),
-				sportsQuestions.asImmutable(),
-				rockQuestions.asImmutable()
-		)
+		def currentCategoryFunction = this.&currentCategory.curry(places[currentPlayer])
+		def printFunction = Console.&println
+
+		(newPopQuestions, newScienceQuestions, newSportsQuestions, newRockQuestions) =
+				pure_askQuestion(
+						currentCategoryFunction,
+						printFunction,
+						popQuestions.asImmutable(),
+						scienceQuestions.asImmutable(),
+						sportsQuestions.asImmutable(),
+						rockQuestions.asImmutable()
+				)
 
 		this.popQuestions = newPopQuestions
 		this.scienceQuestions = newScienceQuestions
@@ -188,7 +191,7 @@ class Game {
 		this.rockQuestions = newRockQuestions
 	}
 
-	private pure_askQuestion(
+	private static pure_askQuestion(
 			final currentCategoryFunction,
 			final printFunction,
 			final popQuestions,
@@ -230,12 +233,7 @@ class Game {
 		return [value, collection.drop(1)]
 	}
 
-
-	private String currentCategory() {
-		return pure_currentCategory(places[currentPlayer])
-	}
-
-	private static pure_currentCategory(final int currentPlace) {
+	private static currentCategory(final int currentPlace) {
 		if (currentPlace == 0) return "Pop"
 		if (currentPlace == 4) return "Pop"
 		if (currentPlace == 8) return "Pop"
