@@ -57,6 +57,7 @@ class Game {
 
 		isGettingOutOfPenaltyBox = pure_Roll(
 				roll,
+				isGettingOutOfPenaltyBox,
 				currentPlayerNameFunction,
 				currentPlayerInPenaltyBoxFunction,
 				printCurrentPlayerNameFunction,
@@ -67,6 +68,7 @@ class Game {
 	}
 
 	private pure_Roll(final int roll,
+	                  final boolean isGettingOutOfPenaltyBox,
 	                  final currentPlayerNameFunction,
 	                  final currentPlayerInPenaltyBoxFunction,
 	                  final printCurrentPlayerNameFunction,
@@ -76,11 +78,11 @@ class Game {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
-		boolean isGettingOutOfPenaltyBox
+		boolean newIsGettingOutOfPenaltyBox = isGettingOutOfPenaltyBox
 
 		if (currentPlayerInPenaltyBoxFunction()) {
 			if (isRollOddFunction()) {
-				isGettingOutOfPenaltyBox = true
+				newIsGettingOutOfPenaltyBox = true
 
 				printPlayerGetsOutOfPenaltyBoxFunction()
 				places[currentPlayer] = places[currentPlayer] + roll
@@ -91,7 +93,7 @@ class Game {
 				askQuestion()
 			} else {
 				println currentPlayerNameFunction() + " is not getting out of the penalty box"
-				isGettingOutOfPenaltyBox = false
+				newIsGettingOutOfPenaltyBox = false
 			}
 
 		} else {
@@ -104,7 +106,7 @@ class Game {
 			askQuestion()
 		}
 
-		return isGettingOutOfPenaltyBox
+		return newIsGettingOutOfPenaltyBox
 	}
 
 	private printPlayerGetsOutOfPenaltyBox(currentPlayerNameFunction) {
