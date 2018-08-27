@@ -168,14 +168,18 @@ class Game {
 	}
 
 	private void askQuestion() {
-		if (currentCategory() == "Pop")
-			println popQuestions.removeFirst()
-		if (currentCategory() == "Science")
-			println scienceQuestions.removeFirst()
-		if (currentCategory() == "Sports")
-			println sportsQuestions.removeFirst()
-		if (currentCategory() == "Rock")
-			println rockQuestions.removeFirst()
+		pure_askQuestion(this.&currentCategory, Console.&println)
+	}
+
+	private pure_askQuestion(final currentCategoryFunction, final printFunction) {
+		if (currentCategoryFunction() == "Pop")
+			printFunction popQuestions.removeFirst()
+		if (currentCategoryFunction() == "Science")
+			printFunction scienceQuestions.removeFirst()
+		if (currentCategoryFunction() == "Sports")
+			printFunction sportsQuestions.removeFirst()
+		if (currentCategoryFunction() == "Rock")
+			printFunction rockQuestions.removeFirst()
 	}
 
 
