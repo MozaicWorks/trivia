@@ -53,17 +53,15 @@ class Game {
 		def printCurrentPlayerNameFunction = this.&printCurrentPlayerName.curry(currentPlayerNameFunction, printFunction)
 		def printRollFunction = this.&printRoll.curry(roll, Console.&println)
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
-		def isGettingOutOfPenaltyBoxTrueFunction = this.&isGettingOutOfPenaltyBoxTrue
 		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
 
-		pure_Roll(
+		isGettingOutOfPenaltyBox = pure_Roll(
 				roll,
 				currentPlayerNameFunction,
 				currentPlayerInPenaltyBoxFunction,
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				isGettingOutOfPenaltyBoxTrueFunction,
 				printPlayerGetsOutOfPenaltyBoxFunction
 		)
 	}
@@ -74,15 +72,15 @@ class Game {
 	                  final printCurrentPlayerNameFunction,
 	                  final printRollFunction,
 	                  final isRollOddFunction,
-	                  final isGettingOutOfPenaltyBoxTrueFunction,
 	                  final printPlayerGetsOutOfPenaltyBoxFunction) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
+		boolean isGettingOutOfPenaltyBox
 
 		if (currentPlayerInPenaltyBoxFunction()) {
 			if (isRollOddFunction()) {
-				isGettingOutOfPenaltyBoxTrueFunction()
+				isGettingOutOfPenaltyBox = true
 
 				printPlayerGetsOutOfPenaltyBoxFunction()
 				places[currentPlayer] = places[currentPlayer] + roll
@@ -105,14 +103,12 @@ class Game {
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
+
+		return isGettingOutOfPenaltyBox
 	}
 
 	private printPlayerGetsOutOfPenaltyBox(currentPlayerNameFunction) {
 		println currentPlayerNameFunction() + " is getting out of the penalty box"
-	}
-
-	private isGettingOutOfPenaltyBoxTrue() {
-		isGettingOutOfPenaltyBox = true
 	}
 
 	private static isRollOdd(final int roll) {
