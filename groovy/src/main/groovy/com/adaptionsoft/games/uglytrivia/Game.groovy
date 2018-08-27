@@ -54,6 +54,7 @@ class Game {
 		def printRollFunction = this.&printRoll.curry(roll, Console.&println)
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
 		def isGettingOutOfPenaltyBoxTrueFunction = this.&isGettingOutOfPenaltyBoxTrue
+		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
 
 		pure_Roll(
 				roll,
@@ -62,7 +63,8 @@ class Game {
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				isGettingOutOfPenaltyBoxTrueFunction, this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
+				isGettingOutOfPenaltyBoxTrueFunction,
+				printPlayerGetsOutOfPenaltyBoxFunction
 		)
 	}
 
