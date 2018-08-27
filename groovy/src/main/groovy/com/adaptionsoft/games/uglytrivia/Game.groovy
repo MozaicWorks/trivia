@@ -63,67 +63,95 @@ class Game {
 
 		def newPlace
 		def printIsNotGettingOutOfPenaltyBoxFunction = this.&printIsNotGettingOutOfPenaltyBox.curry(printFunction, currentPlayerNameFunction)
-		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
+		def currentPlace = this.places[currentPlayer]
+
+		def rollOddAndPlayerInPenaltyBoxFunction = this.&rollOddAndPlayerInPenaltyBox.curry(
+				printPlayerGetsOutOfPenaltyBoxFunction,
+				printNewLocationFunction,
+				printCurrentCategoryFunction,
+				askQuestionFunction,
+				movePlayerFunction
+		)
+
+		def playerInPenaltyBoxAndRollEvenFunction = this.&playerInPenaltyBoxAndRollEven.curry(
+				printIsNotGettingOutOfPenaltyBoxFunction,
+				currentPlace
+		)
+
+		def playerNotInPenaltyBoxFunction = this.&playerNotInPenaltyBox.curry(
+				printNewLocationFunction,
+				printCurrentCategoryFunction,
+				askQuestionFunction,
 				isGettingOutOfPenaltyBox,
+				movePlayerFunction
+		)
+
+
+		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
 				currentPlayerInPenaltyBoxFunction,
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				printPlayerGetsOutOfPenaltyBoxFunction,
-				this.places[currentPlayer],
-				printNewLocationFunction,
-				printCurrentCategoryFunction,
-				askQuestionFunction,
-				printIsNotGettingOutOfPenaltyBoxFunction,
-				movePlayerFunction
+				rollOddAndPlayerInPenaltyBoxFunction,
+				playerInPenaltyBoxAndRollEvenFunction,
+				playerNotInPenaltyBoxFunction
 		)
 
 		this.places[currentPlayer] = newPlace
 	}
 
-	private static pure_Roll(final boolean isGettingOutOfPenaltyBox,
-	                         final currentPlayerInPenaltyBoxFunction,
-	                         final printCurrentPlayerNameFunction,
-	                         final printRollFunction,
-	                         final isRollOddFunction,
-	                         final printPlayerGetsOutOfPenaltyBoxFunction,
-	                         final int currentPlace,
-	                         final printNewLocationFunction,
-	                         final printCurrentCategoryFunction,
-	                         final askQuestionFunction,
-	                         final printIsNotGettingOutOfPenaltyBoxFunction,
-	                         final movePlayerFunction
+	private static pure_Roll(
+			final currentPlayerInPenaltyBoxFunction,
+			final printCurrentPlayerNameFunction,
+			final printRollFunction,
+			final isRollOddFunction,
+			final rollOddAndPlayerInPenaltyBoxFunction,
+			final playerInPenaltyBoxAndRollEvenFunction,
+			final playerNotInPenaltyBoxFunction
 	) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
-		boolean newIsGettingOutOfPenaltyBox = isGettingOutOfPenaltyBox
-		int newPlace = currentPlace
-
 		if (currentPlayerInPenaltyBoxFunction()) {
 			if (isRollOddFunction()) {
-				newIsGettingOutOfPenaltyBox = true
-
-				printPlayerGetsOutOfPenaltyBoxFunction()
-
-				newPlace = movePlayerFunction()
-				printNewLocationFunction()
-
-				printCurrentCategoryFunction()
-				askQuestionFunction()
+				return rollOddAndPlayerInPenaltyBoxFunction()
 			} else {
-				printIsNotGettingOutOfPenaltyBoxFunction()
-				newIsGettingOutOfPenaltyBox = false
+				return playerInPenaltyBoxAndRollEvenFunction()
 			}
-
 		} else {
-			newPlace = movePlayerFunction()
-			printNewLocationFunction()
-			printCurrentCategoryFunction()
-			askQuestionFunction()
+			return playerNotInPenaltyBoxFunction()
 		}
 
-		return [newIsGettingOutOfPenaltyBox, newPlace]
+	}
+
+	private static playerNotInPenaltyBox(
+			printNewLocationFunction,
+			printCurrentCategoryFunction,
+			askQuestionFunction,
+			boolean isGettingOutOfPenaltyBox,
+			movePlayerFunction) {
+		printNewLocationFunction()
+		printCurrentCategoryFunction()
+		askQuestionFunction()
+		return [isGettingOutOfPenaltyBox, movePlayerFunction()]
+	}
+
+	private static playerInPenaltyBoxAndRollEven(printIsNotGettingOutOfPenaltyBoxFunction, int currentPlace) {
+		printIsNotGettingOutOfPenaltyBoxFunction()
+		return [false, currentPlace]
+	}
+
+	private static rollOddAndPlayerInPenaltyBox(
+			printPlayerGetsOutOfPenaltyBoxFunction,
+			printNewLocationFunction,
+			printCurrentCategoryFunction,
+			askQuestionFunction,
+			movePlayerFunction) {
+		printPlayerGetsOutOfPenaltyBoxFunction()
+		printNewLocationFunction()
+		printCurrentCategoryFunction()
+		askQuestionFunction()
+		return [true, movePlayerFunction()]
 	}
 
 	private static printIsNotGettingOutOfPenaltyBox(final printFunction, final currentPlayerNameFunction) {
