@@ -168,18 +168,66 @@ class Game {
 	}
 
 	private void askQuestion() {
-		pure_askQuestion(this.&currentCategory, Console.&println)
+		def newPopQuestions
+		def newScienceQuestions
+		def newSportsQuestions
+		def newRockQuestions
+
+		(newPopQuestions, newScienceQuestions, newSportsQuestions, newRockQuestions) = pure_askQuestion(
+				this.&currentCategory,
+				Console.&println,
+				popQuestions.asImmutable(),
+				scienceQuestions.asImmutable(),
+				sportsQuestions.asImmutable(),
+				rockQuestions.asImmutable()
+		)
+
+		this.popQuestions = newPopQuestions
+		this.scienceQuestions = newScienceQuestions
+		this.sportsQuestions = newSportsQuestions
+		this.rockQuestions = newRockQuestions
 	}
 
-	private pure_askQuestion(final currentCategoryFunction, final printFunction) {
-		if (currentCategoryFunction() == "Pop")
-			printFunction popQuestions.removeFirst()
-		if (currentCategoryFunction() == "Science")
-			printFunction scienceQuestions.removeFirst()
-		if (currentCategoryFunction() == "Sports")
-			printFunction sportsQuestions.removeFirst()
-		if (currentCategoryFunction() == "Rock")
-			printFunction rockQuestions.removeFirst()
+	private pure_askQuestion(
+			final currentCategoryFunction,
+			final printFunction,
+			final popQuestions,
+			final scienceQuestions,
+			final sportsQuestions,
+			final rockQuestions) {
+		def newPopQuestions = popQuestions
+		def newScienceQuestions = scienceQuestions
+		def newSportsQuestions = sportsQuestions
+		def newRockQuestions = rockQuestions
+
+		if (currentCategoryFunction() == "Pop") {
+			newPopQuestions = printAndRemoveFirstValueFromCollection(newPopQuestions, printFunction)
+		}
+		if (currentCategoryFunction() == "Science") {
+			newScienceQuestions = printAndRemoveFirstValueFromCollection(newScienceQuestions, printFunction)
+		}
+
+		if (currentCategoryFunction() == "Sports") {
+			newSportsQuestions = printAndRemoveFirstValueFromCollection(newSportsQuestions, printFunction)
+		}
+		if (currentCategoryFunction() == "Rock") {
+			newRockQuestions = printAndRemoveFirstValueFromCollection(newRockQuestions, printFunction)
+		}
+
+		return [newPopQuestions, newScienceQuestions, newSportsQuestions, newRockQuestions]
+	}
+
+	private static printAndRemoveFirstValueFromCollection(final collection, final printFunction) {
+		def value
+		def newCollection
+		(value, newCollection) = immutable_removeFirst(collection)
+		printFunction value
+		return newCollection
+	}
+
+	private static immutable_removeFirst(final collection) {
+		def value = collection.first()
+		return [value, collection.drop(1)]
 	}
 
 
