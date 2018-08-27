@@ -54,9 +54,11 @@ class Game {
 		def printRollFunction = this.&printRoll.curry(roll, Console.&println)
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
 		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
+		def printNewLocationFunction = this.&printNewLocation.curry(currentPlayerNameFunction)
+		def printCurrentCategoryFunction = this.&printCurrentCategory.curry(this.&currentCategory)
+		def askQuestionFunction = this.&askQuestion
 
 		int newPlace
-
 		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
 				roll,
 				isGettingOutOfPenaltyBox,
@@ -65,7 +67,11 @@ class Game {
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				printPlayerGetsOutOfPenaltyBoxFunction, this.places[currentPlayer], this.&printNewLocation.curry(currentPlayerNameFunction), this.&printCurrentCategory.curry(this.&currentCategory), this.&askQuestion
+				printPlayerGetsOutOfPenaltyBoxFunction,
+				this.places[currentPlayer],
+				printNewLocationFunction,
+				printCurrentCategoryFunction,
+				askQuestionFunction
 		)
 
 		this.places[currentPlayer] = newPlace
@@ -119,7 +125,6 @@ class Game {
 	private static printNewLocation(final currentPlayerNameFunction, final int currentPlace) {
 		println "${currentPlayerNameFunction()}'s new location is ${currentPlace}"
 	}
-
 
 	private static movePlayer(final int roll, final int place) {
 		int newPlace = place
