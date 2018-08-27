@@ -62,7 +62,7 @@ class Game {
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				isGettingOutOfPenaltyBoxTrueFunction
+				isGettingOutOfPenaltyBoxTrueFunction, this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
 		)
 	}
 
@@ -72,7 +72,8 @@ class Game {
 	                  final printCurrentPlayerNameFunction,
 	                  final printRollFunction,
 	                  final isRollOddFunction,
-	                  final isGettingOutOfPenaltyBoxTrueFunction) {
+	                  final isGettingOutOfPenaltyBoxTrueFunction,
+	                  final printPlayerGetsOutOfPenaltyBoxFunction) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
@@ -81,7 +82,7 @@ class Game {
 			if (isRollOddFunction()) {
 				isGettingOutOfPenaltyBoxTrueFunction()
 
-				println currentPlayerNameFunction() + " is getting out of the penalty box"
+				printPlayerGetsOutOfPenaltyBoxFunction()
 				places[currentPlayer] = places[currentPlayer] + roll
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
@@ -102,6 +103,10 @@ class Game {
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
+	}
+
+	private printPlayerGetsOutOfPenaltyBox(currentPlayerNameFunction) {
+		println currentPlayerNameFunction() + " is getting out of the penalty box"
 	}
 
 	private isGettingOutOfPenaltyBoxTrue() {
