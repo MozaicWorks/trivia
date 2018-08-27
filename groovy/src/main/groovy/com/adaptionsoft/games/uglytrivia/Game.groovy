@@ -60,10 +60,11 @@ class Game {
 		def askQuestionFunction = this.&askQuestion
 
 		int newPlace
+		def printIsNotGettingOutOfPenaltyBoxFunction = this.&printIsNotGettingOutOfPenaltyBox.curry(printFunction, currentPlayerNameFunction)
 		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
 				roll,
-				isGettingOutOfPenaltyBox,
-				currentPlayerNameFunction,
+				isGettingOutOfPenaltyBox
+				,
 				currentPlayerInPenaltyBoxFunction,
 				printCurrentPlayerNameFunction,
 				printRollFunction,
@@ -72,21 +73,25 @@ class Game {
 				this.places[currentPlayer],
 				printNewLocationFunction,
 				printCurrentCategoryFunction,
-				askQuestionFunction
+				askQuestionFunction,
+				printIsNotGettingOutOfPenaltyBoxFunction
 		)
 
 		this.places[currentPlayer] = newPlace
 	}
 
-	private pure_Roll(final int roll,
-	                  final boolean isGettingOutOfPenaltyBox,
-	                  final currentPlayerNameFunction,
-	                  final currentPlayerInPenaltyBoxFunction,
-	                  final printCurrentPlayerNameFunction,
-	                  final printRollFunction,
-	                  final isRollOddFunction,
-	                  final printPlayerGetsOutOfPenaltyBoxFunction,
-	                  final int currentPlace, printNewLocationFunction, printCurrentCategoryFunction, askQuestionFunction) {
+	private static pure_Roll(final int roll,
+	                         final boolean isGettingOutOfPenaltyBox,
+	                         final currentPlayerInPenaltyBoxFunction,
+	                         final printCurrentPlayerNameFunction,
+	                         final printRollFunction,
+	                         final isRollOddFunction,
+	                         final printPlayerGetsOutOfPenaltyBoxFunction,
+	                         final int currentPlace,
+	                         final printNewLocationFunction,
+	                         final printCurrentCategoryFunction,
+	                         final askQuestionFunction,
+	                         final printIsNotGettingOutOfPenaltyBoxFunction) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
@@ -104,7 +109,7 @@ class Game {
 				printCurrentCategoryFunction()
 				askQuestionFunction()
 			} else {
-				println currentPlayerNameFunction() + " is not getting out of the penalty box"
+				printIsNotGettingOutOfPenaltyBoxFunction()
 				newIsGettingOutOfPenaltyBox = false
 			}
 
@@ -117,6 +122,10 @@ class Game {
 		}
 
 		return [newIsGettingOutOfPenaltyBox, newPlace]
+	}
+
+	private static printIsNotGettingOutOfPenaltyBox(final printFunction, final currentPlayerNameFunction) {
+		printFunction currentPlayerNameFunction() + " is not getting out of the penalty box"
 	}
 
 	private static printCurrentCategory(final currentCategoryFunction) {
