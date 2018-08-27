@@ -91,7 +91,7 @@ class Game {
 				newIsGettingOutOfPenaltyBox = true
 
 				printPlayerGetsOutOfPenaltyBoxFunction()
-				newPlace = pure_movePlayer(roll, currentPlace)
+				newPlace = movePlayer(roll, currentPlace)
 
 				printNewLocationFunction(newPlace)
 				printCurrentCategoryFunction()
@@ -102,7 +102,7 @@ class Game {
 			}
 
 		} else {
-			newPlace = pure_movePlayer(roll, this.places[currentPlayer])
+			newPlace = movePlayer(roll, this.places[currentPlayer])
 
 			println "${currentPlayerNameFunction()}'s new location is ${places[currentPlayer]}"
 			println "The category is " + currentCategory()
@@ -112,23 +112,23 @@ class Game {
 		return [newIsGettingOutOfPenaltyBox, newPlace]
 	}
 
-	private printCurrentCategory(currentCategoryFunction) {
+	private static printCurrentCategory(final currentCategoryFunction) {
 		println "The category is " + currentCategoryFunction()
 	}
 
-	private printNewLocation(currentPlayerNameFunction, int currentPlace) {
+	private static printNewLocation(final currentPlayerNameFunction, final int currentPlace) {
 		println "${currentPlayerNameFunction()}'s new location is ${currentPlace}"
 	}
 
 
-	private static pure_movePlayer(final int roll, final int place) {
+	private static movePlayer(final int roll, final int place) {
 		int newPlace = place
 		newPlace = newPlace + roll
 		if (newPlace > 11) newPlace = newPlace - 12
 		return newPlace
 	}
 
-	private static printPlayerGetsOutOfPenaltyBox(currentPlayerNameFunction) {
+	private static printPlayerGetsOutOfPenaltyBox(final currentPlayerNameFunction) {
 		println currentPlayerNameFunction() + " is getting out of the penalty box"
 	}
 
@@ -136,19 +136,19 @@ class Game {
 		return roll % 2 != 0
 	}
 
-	private static printRoll(final int roll, printFunction) {
+	private static printRoll(final int roll, final printFunction) {
 		printFunction "They have rolled a " + roll
 	}
 
-	private static printCurrentPlayerName(currentPlayerFromListFunction, printFunction) {
+	private static printCurrentPlayerName(final currentPlayerFromListFunction, final printFunction) {
 		printFunction currentPlayerFromListFunction() + " is the current player"
 	}
 
-	private static isInPenaltyBox(boolean[] inPenaltyBox, int currentPlayer) {
+	private static isInPenaltyBox(final boolean[] inPenaltyBox, final int currentPlayer) {
 		inPenaltyBox[currentPlayer]
 	}
 
-	private static currentPlayerName(ArrayList players, int currentPlayer) {
+	private static currentPlayerName(final players, final int currentPlayer) {
 		players[currentPlayer]
 	}
 
