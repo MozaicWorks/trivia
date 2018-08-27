@@ -65,7 +65,7 @@ class Game {
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				printPlayerGetsOutOfPenaltyBoxFunction, this.places[currentPlayer], this.&printNewLocation.curry(currentPlayerNameFunction)
+				printPlayerGetsOutOfPenaltyBoxFunction, this.places[currentPlayer], this.&printNewLocation.curry(currentPlayerNameFunction), this.&printCurrentCategory.curry(this.&currentCategory)
 		)
 
 		this.places[currentPlayer] = newPlace
@@ -79,7 +79,7 @@ class Game {
 	                  final printRollFunction,
 	                  final isRollOddFunction,
 	                  final printPlayerGetsOutOfPenaltyBoxFunction,
-	                  final int currentPlace, printNewLocationFunction) {
+	                  final int currentPlace, printNewLocationFunction, printCurrentCategoryFunction) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
@@ -94,7 +94,7 @@ class Game {
 				newPlace = pure_movePlayer(roll, currentPlace)
 
 				printNewLocationFunction(newPlace)
-				println "The category is " + currentCategory()
+				printCurrentCategoryFunction()
 				askQuestion()
 			} else {
 				println currentPlayerNameFunction() + " is not getting out of the penalty box"
@@ -110,6 +110,10 @@ class Game {
 		}
 
 		return [newIsGettingOutOfPenaltyBox, newPlace]
+	}
+
+	private printCurrentCategory(currentCategoryFunction) {
+		println "The category is " + currentCategoryFunction()
 	}
 
 	private printNewLocation(currentPlayerNameFunction, int currentPlace) {
