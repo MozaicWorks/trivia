@@ -53,12 +53,12 @@ class Game {
 		def printCurrentPlayerNameFunction = this.&printCurrentPlayerName.curry(currentPlayerNameFunction, printFunction)
 		def printRollFunction = this.&printRoll.curry(roll, Console.&println)
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
-		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
+		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(printFunction, currentPlayerNameFunction)
 		def movePlayerFunction = this.&movePlayer.curry(roll, this.places[currentPlayer])
 		def printNewLocationFunction =
-				this.&printNewLocation.curry(currentPlayerNameFunction, movePlayerFunction)
+				this.&printNewLocation.curry(printFunction, currentPlayerNameFunction, movePlayerFunction)
 		def currentCategoryFunction = this.&currentCategory.curry(places[currentPlayer])
-		def printCurrentCategoryFunction = this.&printCurrentCategory.curry(currentCategoryFunction)
+		def printCurrentCategoryFunction = this.&printCurrentCategory.curry(printFunction, currentCategoryFunction)
 		def askQuestionFunction = this.&askQuestion
 
 		def newPlace
@@ -128,7 +128,7 @@ class Game {
 			printNewLocationFunction,
 			printCurrentCategoryFunction,
 			askQuestionFunction,
-			boolean isGettingOutOfPenaltyBox,
+			final boolean isGettingOutOfPenaltyBox,
 			movePlayerFunction) {
 		printNewLocationFunction()
 		printCurrentCategoryFunction()
@@ -158,12 +158,12 @@ class Game {
 		printFunction currentPlayerNameFunction() + " is not getting out of the penalty box"
 	}
 
-	private static printCurrentCategory(final currentCategoryFunction) {
-		println "The category is " + currentCategoryFunction()
+	private static printCurrentCategory(final printFunction, final currentCategoryFunction) {
+		printFunction "The category is " + currentCategoryFunction()
 	}
 
-	private static printNewLocation(final currentPlayerNameFunction, final currentPlaceFunction) {
-		println "${currentPlayerNameFunction()}'s new location is ${currentPlaceFunction()}"
+	private static printNewLocation(final printFunction, final currentPlayerNameFunction, final currentPlaceFunction) {
+		printFunction "${currentPlayerNameFunction()}'s new location is ${currentPlaceFunction()}"
 	}
 
 	private static movePlayer(final int roll, final int place) {
@@ -173,8 +173,8 @@ class Game {
 		return newPlace
 	}
 
-	private static printPlayerGetsOutOfPenaltyBox(final currentPlayerNameFunction) {
-		println currentPlayerNameFunction() + " is getting out of the penalty box"
+	private static printPlayerGetsOutOfPenaltyBox(final printFunction, final currentPlayerNameFunction) {
+		printFunction currentPlayerNameFunction() + " is getting out of the penalty box"
 	}
 
 	private static isRollOdd(final int roll) {
