@@ -48,7 +48,7 @@ class Game {
 
 	void roll(int roll) {
 		def printFunction = Console.&println
-		def currentPlayerNameFunction = this.&currentPlayerFromList.curry(this.players, this.currentPlayer)
+		def currentPlayerNameFunction = this.&currentPlayerName.curry(this.players, this.currentPlayer)
 		def currentPlayerInPenaltyBoxFunction = this.&isInPenaltyBox.curry(this.inPenaltyBox, this.currentPlayer)
 		def printCurrentPlayerNameFunction = this.&printCurrentPlayerName.curry(currentPlayerNameFunction, printFunction)
 		def printRollFunction = this.&printRoll.curry(roll, Console.&println)
@@ -67,7 +67,7 @@ class Game {
 	}
 
 	private pure_Roll(final int roll,
-	                  final currentPlayerFromListFunction,
+	                  final currentPlayerNameFunction,
 	                  final currentPlayerInPenaltyBoxFunction,
 	                  final printCurrentPlayerNameFunction,
 	                  final printRollFunction,
@@ -85,11 +85,11 @@ class Game {
 				places[currentPlayer] = places[currentPlayer] + roll
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
-				println "${currentPlayerFromListFunction()}'s new location is ${places[currentPlayer]}"
+				println "${currentPlayerNameFunction()}'s new location is ${places[currentPlayer]}"
 				println "The category is " + currentCategory()
 				askQuestion()
 			} else {
-				println currentPlayerFromListFunction() + " is not getting out of the penalty box"
+				println currentPlayerNameFunction() + " is not getting out of the penalty box"
 				isGettingOutOfPenaltyBox = false
 			}
 
@@ -98,7 +98,7 @@ class Game {
 			places[currentPlayer] = places[currentPlayer] + roll
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
-			println "${currentPlayerFromListFunction()}'s new location is ${places[currentPlayer]}"
+			println "${currentPlayerNameFunction()}'s new location is ${places[currentPlayer]}"
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
@@ -124,7 +124,7 @@ class Game {
 		inPenaltyBox[currentPlayer]
 	}
 
-	private static currentPlayerFromList(ArrayList players, int currentPlayer) {
+	private static currentPlayerName(ArrayList players, int currentPlayer) {
 		players[currentPlayer]
 	}
 
