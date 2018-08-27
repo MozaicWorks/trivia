@@ -62,7 +62,6 @@ class Game {
 		int newPlace
 		def printIsNotGettingOutOfPenaltyBoxFunction = this.&printIsNotGettingOutOfPenaltyBox.curry(printFunction, currentPlayerNameFunction)
 		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
-				roll,
 				isGettingOutOfPenaltyBox,
 				currentPlayerInPenaltyBoxFunction,
 				printCurrentPlayerNameFunction,
@@ -79,8 +78,7 @@ class Game {
 		this.places[currentPlayer] = newPlace
 	}
 
-	private static pure_Roll(final int roll,
-	                         final boolean isGettingOutOfPenaltyBox,
+	private static pure_Roll(final boolean isGettingOutOfPenaltyBox,
 	                         final currentPlayerInPenaltyBoxFunction,
 	                         final printCurrentPlayerNameFunction,
 	                         final printRollFunction,
