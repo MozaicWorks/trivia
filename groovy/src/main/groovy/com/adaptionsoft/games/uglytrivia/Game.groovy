@@ -55,7 +55,9 @@ class Game {
 		def isRollOddFunction = this.&isRollOdd.curry(roll)
 		def printPlayerGetsOutOfPenaltyBoxFunction = this.&printPlayerGetsOutOfPenaltyBox.curry(currentPlayerNameFunction)
 
-		isGettingOutOfPenaltyBox = pure_Roll(
+		int newPlace
+
+		(isGettingOutOfPenaltyBox, newPlace) = pure_Roll(
 				roll,
 				isGettingOutOfPenaltyBox,
 				currentPlayerNameFunction,
@@ -63,8 +65,10 @@ class Game {
 				printCurrentPlayerNameFunction,
 				printRollFunction,
 				isRollOddFunction,
-				printPlayerGetsOutOfPenaltyBoxFunction
+				printPlayerGetsOutOfPenaltyBoxFunction, this.places[currentPlayer]
 		)
+
+		this.places[currentPlayer] = newPlace
 	}
 
 	private pure_Roll(final int roll,
@@ -74,21 +78,22 @@ class Game {
 	                  final printCurrentPlayerNameFunction,
 	                  final printRollFunction,
 	                  final isRollOddFunction,
-	                  final printPlayerGetsOutOfPenaltyBoxFunction) {
+	                  final printPlayerGetsOutOfPenaltyBoxFunction,
+	                  final int currentPlace) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
 		boolean newIsGettingOutOfPenaltyBox = isGettingOutOfPenaltyBox
+		int newPlace = currentPlace
 
 		if (currentPlayerInPenaltyBoxFunction()) {
 			if (isRollOddFunction()) {
 				newIsGettingOutOfPenaltyBox = true
 
 				printPlayerGetsOutOfPenaltyBoxFunction()
-				places[currentPlayer] = places[currentPlayer] + roll
-				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
+				newPlace = pure_movePlayer(roll, currentPlace)
 
-				println "${currentPlayerNameFunction()}'s new location is ${places[currentPlayer]}"
+				println "${currentPlayerNameFunction()}'s new location is ${currentPlace}"
 				println "The category is " + currentCategory()
 				askQuestion()
 			} else {
@@ -97,19 +102,25 @@ class Game {
 			}
 
 		} else {
-
-			places[currentPlayer] = places[currentPlayer] + roll
-			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
+			newPlace = pure_movePlayer(roll, this.places[currentPlayer])
 
 			println "${currentPlayerNameFunction()}'s new location is ${places[currentPlayer]}"
 			println "The category is " + currentCategory()
 			askQuestion()
 		}
 
-		return newIsGettingOutOfPenaltyBox
+		return [newIsGettingOutOfPenaltyBox, newPlace]
 	}
 
-	private printPlayerGetsOutOfPenaltyBox(currentPlayerNameFunction) {
+
+	private static pure_movePlayer(final int roll, final int place) {
+		int newPlace = place
+		newPlace = newPlace + roll
+		if (newPlace > 11) newPlace = newPlace - 12
+		return newPlace
+	}
+
+	private static printPlayerGetsOutOfPenaltyBox(currentPlayerNameFunction) {
 		println currentPlayerNameFunction() + " is getting out of the penalty box"
 	}
 
