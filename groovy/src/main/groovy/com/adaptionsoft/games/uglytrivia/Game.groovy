@@ -81,7 +81,7 @@ class Game {
 			if (isRollOddFunction()) {
 				isGettingOutOfPenaltyBoxTrueFunction()
 
-				println players[currentPlayer] + " is getting out of the penalty box"
+				println currentPlayerNameFunction() + " is getting out of the penalty box"
 				places[currentPlayer] = places[currentPlayer] + roll
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12
 
