@@ -73,7 +73,7 @@ class Game {
 				printNewLocationFunction,
 				printCurrentCategoryFunction,
 				askQuestionFunction,
-				printIsNotGettingOutOfPenaltyBoxFunction
+				printIsNotGettingOutOfPenaltyBoxFunction, this.&movePlayer.curry(roll, this.places[currentPlayer])
 		)
 
 		this.places[currentPlayer] = newPlace
@@ -90,21 +90,25 @@ class Game {
 	                         final printNewLocationFunction,
 	                         final printCurrentCategoryFunction,
 	                         final askQuestionFunction,
-	                         final printIsNotGettingOutOfPenaltyBoxFunction) {
+	                         final printIsNotGettingOutOfPenaltyBoxFunction,
+	                         final movePlayerFunction
+	) {
 		printCurrentPlayerNameFunction()
 		printRollFunction()
 
 		boolean newIsGettingOutOfPenaltyBox = isGettingOutOfPenaltyBox
 		int newPlace = currentPlace
 
+
 		if (currentPlayerInPenaltyBoxFunction()) {
 			if (isRollOddFunction()) {
 				newIsGettingOutOfPenaltyBox = true
 
 				printPlayerGetsOutOfPenaltyBoxFunction()
-				newPlace = movePlayer(roll, currentPlace)
 
+				newPlace = movePlayerFunction()
 				printNewLocationFunction(newPlace)
+
 				printCurrentCategoryFunction()
 				askQuestionFunction()
 			} else {
@@ -113,7 +117,7 @@ class Game {
 			}
 
 		} else {
-			newPlace = movePlayer(roll, currentPlace)
+			newPlace = movePlayerFunction()
 
 			printNewLocationFunction(newPlace)
 			printCurrentCategoryFunction()
